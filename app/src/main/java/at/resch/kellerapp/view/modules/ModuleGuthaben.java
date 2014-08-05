@@ -1,5 +1,6 @@
 package at.resch.kellerapp.view.modules;
 
+import at.resch.kellerapp.R;
 import at.resch.kellerapp.user.RequiresPermission;
 import at.resch.kellerapp.view.Module;
 import at.resch.kellerapp.view.ViewManager;
@@ -21,7 +22,7 @@ public class ModuleGuthaben implements Module {
 
     @Override
     public void open(ViewManager viewManager) {
-        viewManager.closeView();
+        viewManager.getActivity().setContentView(R.layout.nfc_wait);
     }
 
     @Override

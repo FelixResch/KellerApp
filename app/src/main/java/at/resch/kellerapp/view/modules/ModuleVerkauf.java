@@ -1,5 +1,7 @@
 package at.resch.kellerapp.view.modules;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TabHost;
@@ -33,6 +35,28 @@ public class ModuleVerkauf implements Module {
             @Override
             public void onClick(View view) {
                 viewManager.closeView();
+            }
+        });
+        ((Button) viewManager.getActivity().findViewById(R.id.pay)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(viewManager.getActivity());
+                builder.setTitle("Zahlungsmethode");
+                builder.setMessage("Bitte wähle die Zahlungsmethode aus");
+                builder.setNegativeButton("Bar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setPositiveButton("NFC", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        viewManager.getActivity().setContentView(R.layout.nfc_wait);
+                    }
+                });
+                builder.show();
             }
         });
         {
