@@ -24,6 +24,9 @@ public class User {
     @Field("u_telephone")
     private String telephone;
 
+    @Field("u_balance")
+    private double balance;
+
     public String getTelephone() {
         return telephone;
     }
@@ -62,5 +65,13 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

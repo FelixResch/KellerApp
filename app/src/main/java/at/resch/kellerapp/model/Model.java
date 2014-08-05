@@ -1,6 +1,5 @@
 package at.resch.kellerapp.model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import at.resch.kellerapp.persistence.Database;
@@ -96,6 +95,30 @@ public class Model {
 
     public void setCategories(ArrayList<Category> categories) {
         this.categories = categories;
+    }
+
+    public Card getCard(String id) {
+        for (Card c : cards) {
+            if (c.getId().equals(id))
+                return c;
+        }
+        return null;
+    }
+
+    public User getUser(int id) {
+        for (User u : user) {
+            if (u.getId() == id)
+                return u;
+        }
+        return null;
+    }
+
+    public User getUser(String id) {
+        for (Identity i : identities) {
+            if (i.getCard().equals(id))
+                return getUser(i.getUser());
+        }
+        return null;
     }
 }
 

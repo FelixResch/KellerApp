@@ -75,8 +75,9 @@ public class UserManager implements CardListener {
     public void onCardDetected(String card) {
         if (authenticate(card)) {
             ViewManager.get().reopenView();
+            Toast.makeText(ViewManager.get().getActivity(), "Willkommen " + currentUser.getName(), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(ViewManager.get().getActivity(), "Unknown ID " + card, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewManager.get().getActivity(), "Unbekannte ID " + card, Toast.LENGTH_SHORT).show();
         }
     }
 }

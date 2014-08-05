@@ -1,15 +1,12 @@
 package at.resch.kellerapp.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import at.resch.kellerapp.R;
 import at.resch.kellerapp.model.Model;
@@ -23,7 +20,7 @@ public class MainMenu implements View {
 
     public static final String[] MODULES = new String[] {"at.resch.kellerapp.view.modules.ModuleGuthaben", "at.resch.kellerapp.view.modules.ModuleVerkauf",
             "at.resch.kellerapp.view.modules.ModuleEinkauf", "at.resch.kellerapp.view.modules.ModuleAufladen", "at.resch.kellerapp.view.modules.ModuleFinanztools",
-            "at.resch.kellerapp.view.modules.ModuleEinstellungen", "at.resch.kellerapp.view.modules.ModuleServer", "at.resch.kellerapp.view.modules.ModuleLogs"};
+            "at.resch.kellerapp.view.modules.ModuleEinstellungen", "at.resch.kellerapp.view.modules.ModuleServer", "at.resch.kellerapp.view.modules.ModuleLogout"};
 
     @Override
     public void open(final ViewManager viewManager) {

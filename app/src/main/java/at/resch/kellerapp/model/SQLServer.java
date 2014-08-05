@@ -48,6 +48,28 @@ public class SQLServer extends AsyncTask<Properties, String, Model> {
             Permission p = new Permission();
             p.setUser(0);
             //TODO Change back to PERMISSION_VIEW before release
+            //p.setPermission("DEVELOPER");
+            p.setPermission("PERMISSION_VIEW");
+            m.getPermissions().add(p);
+        }
+        //TODO Remove before release
+        log("Adding Superuser");
+        {
+            User u = new User();
+            u.setBalance(20);
+            u.setId(1);
+            u.setName("Felix Resch");
+            m.getUser().add(u);
+            Card c = new Card();
+            c.setId("09F58630");
+            c.setType(1);
+            m.getCards().add(c);
+            Identity i = new Identity();
+            i.setUser(1);
+            i.setCard("09F58630");
+            m.getIdentities().add(i);
+            Permission p = new Permission();
+            p.setUser(1);
             p.setPermission("DEVELOPER");
             m.getPermissions().add(p);
         }
