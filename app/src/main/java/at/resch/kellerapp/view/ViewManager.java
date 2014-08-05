@@ -62,4 +62,8 @@ public class ViewManager {
             viewStack.peek().reopen(this);
         }
     }
+
+    public void reopenView() {
+        viewStack.peek().reopen(this);
+    }
 }

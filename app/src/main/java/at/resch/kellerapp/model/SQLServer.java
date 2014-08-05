@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import at.resch.kellerapp.at.resch.kellerapp.logging.Log;
 import at.resch.kellerapp.persistence.PersistenceManager;
+import at.resch.kellerapp.user.CardHandler;
 import at.resch.kellerapp.user.UserManager;
 import at.resch.kellerapp.view.MainMenu;
 import at.resch.kellerapp.view.ViewManager;
@@ -92,5 +93,7 @@ public class SQLServer extends AsyncTask<Properties, String, Model> {
     protected void onPostExecute(Model model) {
         model.setSettings(new Settings());
         ViewManager.get().openView(MainMenu.class);
+        CardHandler.get().addCardListener(model.getUserManager());
+        CardHandler.get().release();
     }
 }

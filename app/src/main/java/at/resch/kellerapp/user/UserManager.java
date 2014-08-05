@@ -1,6 +1,6 @@
 package at.resch.kellerapp.user;
 
-import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import at.resch.kellerapp.view.ViewManager;
 /**
  * Created by felix on 8/4/14.
  */
-public class UserManager {
+public class UserManager implements CardListener {
 
     private HashMap<String, User> identities;
     private ArrayList<String> userPermissions;
@@ -69,5 +69,14 @@ public class UserManager {
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    @Override
+    public void onCardDetected(String card) {
+        if (authenticate(card)) {
+            ViewManager.get().reopenView();
+        } else {
+            Toast.makeText(ViewManager.get().getActivity(), "Unknown ID " + card, Toast.LENGTH_SHORT).show();
+        }
     }
 }
