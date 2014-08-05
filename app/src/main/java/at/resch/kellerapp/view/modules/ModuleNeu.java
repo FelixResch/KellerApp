@@ -1,29 +1,25 @@
 package at.resch.kellerapp.view.modules;
 
-import at.resch.kellerapp.R;
-import at.resch.kellerapp.user.RequiresPermission;
 import at.resch.kellerapp.view.Module;
 import at.resch.kellerapp.view.ViewManager;
 
 /**
- * Created by felix on 8/4/14.
+ * Created by felix on 8/5/14.
  */
-@RequiresPermission("PERMISSION_VIEW")
-public class ModuleFinanztools implements Module {
+public class ModuleNeu implements Module {
     @Override
     public String getName() {
-        return "Finanztools";
+        return "Neue Karte";
     }
 
     @Override
     public String[] getPermissions() {
-        return new String[] {"PERMISSION_ACCOUNTING"};
+        return new String[]{"PERMISSION_TRANSACTION", "PERMISSION_CARD"};
     }
 
     @Override
     public void open(ViewManager viewManager) {
-        viewManager.getActivity().setContentView(R.layout.accounting_layout);
-        //TODO implement in combination with jdbc model
+        viewManager.closeView();
     }
 
     @Override

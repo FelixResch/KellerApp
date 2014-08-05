@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ListView
         android:layout_width="300dp"
@@ -9,7 +10,7 @@
         android:id="@+id/bestellungen"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/pay"/>
+        android:layout_above="@+id/pay" />
 
     <TabHost
         android:layout_width="fill_parent"
@@ -29,8 +30,7 @@
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:showDividers="middle">
-                </TabWidget>
+                android:showDividers="middle"></TabWidget>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -41,17 +41,20 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/tab1">
+
                     <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:id="@+id/alkoholfrei">
 
-                        </ListView>
-                    </LinearLayout>
+                    </ListView>
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/tab2">
+
                     <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -59,10 +62,12 @@
 
                     </ListView>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/tab3">
+
                     <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -70,10 +75,12 @@
 
                     </ListView>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/tab4">
+
                     <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -88,7 +95,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Zahlen"
+        android:text="Buchen"
         android:id="@+id/pay"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
@@ -109,55 +116,23 @@
         android:layout_alignTop="@+id/clear"
         android:layout_toStartOf="@+id/clear" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preis"
+        android:id="@+id/total"
+        android:layout_alignTop="@+id/back"
+        android:layout_toStartOf="@+id/back" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0,00€"
-        android:id="@+id/textView"
-        android:layout_alignTop="@+id/back"
-        android:layout_toStartOf="@+id/back"
+        android:id="@+id/money"
+        android:layout_alignTop="@+id/total"
+        android:layout_toStartOf="@+id/total"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
-    <!--<TabHost
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/tabHost2"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/bestellungen"
-        android:layout_above="@+id/pay">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
-
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"></TabWidget>
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearLayout2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearLayout3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>-->
 </RelativeLayout>

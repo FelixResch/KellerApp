@@ -7,6 +7,12 @@ import java.util.ArrayList;
  */
 public class Log {
 
+    private static Log instance;
+
+    public static Log get() {
+        return instance;
+    }
+
     public enum Level {
         DEBUG, INFO, WARNING, ERROR, FATAL
     }
@@ -15,6 +21,7 @@ public class Log {
 
     public Log() {
         loggers = new ArrayList<Logger>();
+        instance = this;
     }
 
     public void addLogger(Logger logger) {
@@ -22,9 +29,9 @@ public class Log {
     }
 
     public void appendMessage(Level level, String message) {
-        if(message == null)
+        if (message == null)
             message = "null";
-        for(Logger l : loggers) {
+        for (Logger l : loggers) {
             l.append(level, message);
         }
     }

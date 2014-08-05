@@ -61,7 +61,7 @@ public class MainMenu implements View {
         });
     }
 
-    public class SquareAdapter extends  ArrayAdapter<Module> {
+    public static class SquareAdapter extends ArrayAdapter<Module> {
 
         public SquareAdapter(Context context) {
             super(context, R.layout.tile_layout);

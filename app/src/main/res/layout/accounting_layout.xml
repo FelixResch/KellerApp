@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Finanztools"
+        android:paddingRight="150dp"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0,00€"
+        android:id="@+id/rote_kassa"
+        android:layout_below="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingLeft="10dp"
+        android:text="+0,00€"
+        android:id="@+id/rote_kassa_change"
+        android:layout_toEndOf="@+id/rote_kassa"
+        android:layout_alignBaseline="@+id/rote_kassa" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Rote Kassa"
+        android:id="@+id/textView4"
+        android:layout_toStartOf="@+id/rote_kassa"
+        android:layout_alignBaseline="@+id/rote_kassa"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0,00€"
+        android:id="@+id/weise_kassa"
+        android:layout_below="@+id/rote_kassa"
+        android:layout_toEndOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingLeft="10dp"
+        android:text="+0,00€"
+        android:id="@+id/weise_kassa_change"
+        android:layout_toEndOf="@+id/weise_kassa"
+        android:layout_alignBaseline="@+id/weise_kassa" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Weiße Kassa"
+        android:id="@+id/textView5"
+        android:layout_toStartOf="@+id/weise_kassa"
+        android:layout_alignBaseline="@+id/weise_kassa"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0,00€"
+        android:id="@+id/schwarze_kassa"
+        android:layout_below="@+id/weise_kassa"
+        android:layout_toEndOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingLeft="10dp"
+        android:text="+0,00€"
+        android:id="@+id/schwarze_kassa_change"
+        android:layout_toEndOf="@+id/schwarze_kassa"
+        android:layout_alignBaseline="@+id/schwarze_kassa" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Schwarze Kassa"
+        android:id="@+id/textView6"
+        android:layout_toStartOf="@+id/schwarze_kassa"
+        android:layout_alignBaseline="@+id/schwarze_kassa"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0,00€"
+        android:id="@+id/keller_card"
+        android:layout_below="@+id/schwarze_kassa"
+        android:layout_toEndOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingLeft="10dp"
+        android:text="+0,00€"
+        android:id="@+id/keller_card_change"
+        android:layout_toEndOf="@+id/keller_card"
+        android:layout_alignBaseline="@+id/keller_card" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Keller Card Zwischenkonto"
+        android:id="@+id/textView7"
+        android:layout_toStartOf="@+id/keller_card"
+        android:layout_alignBaseline="@+id/keller_card"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zurücksetzen"
+        android:layout_below="@+id/keller_card"
+        android:layout_alignParentStart="true"
+        android:id="@+id/reset" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Direkte Buchung"
+        android:id="@+id/book"
+        android:layout_below="@+id/keller_card"
+        android:layout_toEndOf="@+id/reset" />
+
+</RelativeLayout>
