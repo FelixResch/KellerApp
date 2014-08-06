@@ -1,6 +1,7 @@
 package at.resch.kellerapp.view.modules;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +47,7 @@ public class ModuleLaden implements Module {
                             User u = Model.get().getUser(card);
                             if (u != null) {
                                 u.setBalance(u.getBalance() + money);
+                                Model.get().update(u);
                                 Toast.makeText(viewManager.getActivity(), "Buche " + String.format("%.2f", money) + "€ auf das Konto von " + u.getName(), Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(viewManager.getActivity(), "Unbekannte Karte " + card, Toast.LENGTH_SHORT).show();
@@ -58,6 +60,12 @@ public class ModuleLaden implements Module {
                     Toast.makeText(viewManager.getActivity(), "Falsches Zahlenformat", Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
+            }
+        });
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                viewManager.closeView();
             }
         });
         dialog.show();

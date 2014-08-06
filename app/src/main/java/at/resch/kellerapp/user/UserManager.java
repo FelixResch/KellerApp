@@ -23,45 +23,35 @@ public class UserManager implements CardListener {
     private User currentUser;
     private Model model;
 
-    public UserManager (Model model) {
+    public UserManager(Model model) {
         model.setUserManager(this);
         this.model = model;
-        identities = new HashMap<String, User>();
-        for(Identity i : model.getIdentities()) {
-            User u = null;
-            for(User u_ : model.getUser()) {
-                if(u_.getId() == i.getUser()) {
-                    u = u_;
-                }
-            }
-            String card = null;
-            for(Card c : model.getCards()) {
-                if(c.getId().equals(i.getCard()))
-                    card = c.getId();
-            }
-            identities.put(card, u);
-        }
+        reload();
     }
 
-    public boolean authenticate (String id) {
-        if(!identities.containsKey(id))
+    public boolean authenticate(String id) {
+        if (!identities.containsKey(id))
             return false;
-        currentUser = identities.get(id);
-        userPermissions = new ArrayList<String>();
-        for(Permission p : model.getPermissions()) {
-            if(p.getUser() == currentUser.getId()) {
+        ArrayList<String> userPermissions = new ArrayList<String>();
+        for (Permission p : model.getPermissions()) {
+            if (p.getUser() == identities.get(id).getId()) {
                 userPermissions.add(p.getPermission());
             }
         }
-        return true;
+        if (userPermissions.contains("PERMISSION_APP") || userPermissions.contains("PERMISSION_ALL") || userPermissions.contains("DEVELOPER")) {
+            this.userPermissions = userPermissions;
+            currentUser = identities.get(id);
+            return true;
+        }
+        return false;
     }
 
     public boolean authorize(String permission) {
-        if(currentUser == null)
+        if (currentUser == null)
             return false;
-        if(userPermissions.contains("PERMISSION_ALL") || userPermissions.contains("DEVELOPER"))
+        if (userPermissions.contains("PERMISSION_ALL") || userPermissions.contains("DEVELOPER"))
             return true;
-        if(userPermissions.contains(permission))
+        if (userPermissions.contains(permission))
             return true;
         return false;
     }
@@ -78,6 +68,24 @@ public class UserManager implements CardListener {
             Toast.makeText(ViewManager.get().getActivity(), "Willkommen " + currentUser.getName(), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(ViewManager.get().getActivity(), "Unbekannte ID " + card, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void reload() {
+        identities = new HashMap<String, User>();
+        for (Identity i : model.getIdentities()) {
+            User u = null;
+            for (User u_ : model.getUser()) {
+                if (u_.getId() == i.getUser()) {
+                    u = u_;
+                }
+            }
+            String card = null;
+            for (Card c : model.getCards()) {
+                if (c.getId().equals(i.getCard()))
+                    card = c.getId();
+            }
+            identities.put(card, u);
         }
     }
 }

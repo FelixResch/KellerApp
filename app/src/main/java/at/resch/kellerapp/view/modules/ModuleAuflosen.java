@@ -42,6 +42,9 @@ public class ModuleAuflosen implements Module {
                         User u = Model.get().getUser(card);
                         if (u != null) {
                             //TODO remove with jdbc model
+                            Model.get().remove(u);
+                            Model.get().remove(Model.get().getCard(card));
+                            Model.get().getUserManager().reload();
                             Toast.makeText(viewManager.getActivity(), "Entferne das Konto von " + u.getName(), Toast.LENGTH_SHORT).show();
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(viewManager.getActivity());
                             builder1.setTitle("Geldrückgabe");
@@ -53,6 +56,12 @@ public class ModuleAuflosen implements Module {
                                 }
                             });
                             builder1.show();
+                            builder1.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialogInterface) {
+                                    viewManager.closeView();
+                                }
+                            });
                         } else {
                             Toast.makeText(viewManager.getActivity(), "Unbekannte Karte " + card, Toast.LENGTH_SHORT).show();
                         }
@@ -66,6 +75,12 @@ public class ModuleAuflosen implements Module {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+                viewManager.closeView();
+            }
+        });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
                 viewManager.closeView();
             }
         });

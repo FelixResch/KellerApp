@@ -1,22 +1,19 @@
 package at.resch.kellerapp.model;
 
-import at.resch.kellerapp.persistence.AutoIncrement;
 import at.resch.kellerapp.persistence.Field;
 import at.resch.kellerapp.persistence.PrimaryKey;
 
 /**
- * Created by felix on 8/4/14.
+ * Created by felix on 8/6/14.
  */
-public class Category {
+public class CardType {
 
-    @Field("ca_id")
+    @Field("ct_id")
     @PrimaryKey
-    @AutoIncrement
     @Id
     private int id;
 
-    @Field("ca_name")
-    @Id
+    @Field("ct_name")
     private String name;
 
     public int getId() {

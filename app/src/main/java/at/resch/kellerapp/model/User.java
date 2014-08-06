@@ -2,7 +2,9 @@ package at.resch.kellerapp.model;
 
 import java.util.Date;
 
+import at.resch.kellerapp.persistence.AutoIncrement;
 import at.resch.kellerapp.persistence.Field;
+import at.resch.kellerapp.persistence.PrimaryKey;
 
 /**
  * Created by felix on 8/4/14.
@@ -10,9 +12,13 @@ import at.resch.kellerapp.persistence.Field;
 public class User {
 
     @Field("u_id")
+    @PrimaryKey
+    @AutoIncrement
+    @Id
     private int id;
 
     @Field("u_name")
+    @Id
     private String name;
 
     @Field("u_birthday")

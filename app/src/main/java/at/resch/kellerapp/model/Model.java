@@ -1,8 +1,13 @@
 package at.resch.kellerapp.model;
 
+import android.util.Log;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 
 import at.resch.kellerapp.persistence.Database;
+import at.resch.kellerapp.persistence.PersistenceManager;
 import at.resch.kellerapp.persistence.Table;
 import at.resch.kellerapp.user.UserManager;
 
@@ -24,6 +29,9 @@ public class Model {
 
     @Table("c_cards")
     private ArrayList<Card> cards;
+
+    @Table("ct_cardtypes")
+    private ArrayList<CardType> cardTypes;
 
     @Table("u_user")
     private ArrayList<User> user;
@@ -98,25 +106,109 @@ public class Model {
     }
 
     public Card getCard(String id) {
-        for (Card c : cards) {
-            if (c.getId().equals(id))
-                return c;
-        }
-        return null;
+        return get(Card.class, id);
     }
 
     public User getUser(int id) {
-        for (User u : user) {
-            if (u.getId() == id)
-                return u;
-        }
-        return null;
+        return get(User.class, id);
     }
 
     public User getUser(String id) {
-        for (Identity i : identities) {
-            if (i.getCard().equals(id))
-                return getUser(i.getUser());
+        return get(User.class, get(Identity.class, id).getUser());
+    }
+
+    public ArrayList<CardType> getCardTypes() {
+        return cardTypes;
+    }
+
+    public void setCardTypes(ArrayList<CardType> cardTypes) {
+        this.cardTypes = cardTypes;
+    }
+
+    public void add(Object o) {
+        for (Field f : getClass().getDeclaredFields()) {
+            if (f.isAnnotationPresent(Table.class) && ((Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0]) == o.getClass()) {
+                try {
+                    ArrayList list = (ArrayList) f.get(this);
+                    list.add(o);
+                    PersistenceManager.insert(f.getAnnotation(Table.class).value(), o);
+                    return;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Log.d("kellerapp-log", "No List for Type: " + o.getClass().getCanonicalName());
+    }
+
+    public void addOverwrite(Object o) {
+        for (Field f : getClass().getDeclaredFields()) {
+            if (f.isAnnotationPresent(Table.class) && ((Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0]) == o.getClass()) {
+                try {
+                    ArrayList list = (ArrayList) f.get(this);
+                    list.add(o);
+                    PersistenceManager.insert(f.getAnnotation(Table.class).value(), o, true);
+                    return;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Log.d("kellerapp-log", "No List for Type: " + o.getClass().getCanonicalName());
+    }
+
+    public void remove(Object o) {
+        for (Field f : getClass().getDeclaredFields()) {
+            if (f.isAnnotationPresent(Table.class) && ((Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0]) == o.getClass()) {
+                try {
+                    ArrayList list = (ArrayList) f.get(this);
+                    list.remove(o);
+                    PersistenceManager.delete(f.getAnnotation(Table.class).value(), o);
+                    return;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Log.d("kellerapp-log", "No List for Type: " + o.getClass().getCanonicalName());
+    }
+
+    public void update(Object o) {
+        for (Field f : getClass().getDeclaredFields()) {
+            if (f.isAnnotationPresent(Table.class) && ((Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0]) == o.getClass()) {
+                PersistenceManager.update(f.getAnnotation(Table.class).value(), o);
+                return;
+            }
+        }
+        Log.d("kellerapp-log", "No List for Type: " + o.getClass().getCanonicalName());
+    }
+
+    public <T> T get(Class<T> type, Object id) {
+        for (Field f : getClass().getDeclaredFields()) {
+            if (f.isAnnotationPresent(Table.class) && ((Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0]) == type) {
+                try {
+                    ArrayList list = (ArrayList) f.get(this);
+                    for (Object o : list) {
+                        for (Field ids : type.getDeclaredFields()) {
+                            ids.setAccessible(true);
+                            if (ids.isAnnotationPresent(Id.class)) {
+                                Id i = ids.getAnnotation(Id.class);
+                                if (i.type() == Void.class && ids.getType().isAssignableFrom(id.getClass())) {
+                                    if (ids.get(o).equals(id)) {
+                                        return (T) o;
+                                    }
+                                } else if (i.type() != Void.class && i.type().isAssignableFrom(id.getClass())) {
+                                    if (ids.get(o).equals(id)) {
+                                        return (T) o;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }

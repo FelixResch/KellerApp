@@ -95,7 +95,19 @@ public class ModuleNeu implements Module {
                                 addUserCard(u);
                             }
                         });
+                        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialogInterface) {
+                                viewManager.closeView();
+                            }
+                        });
                         dialog.show();
+                    }
+                });
+                builder1.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        viewManager.closeView();
                     }
                 });
                 builder1.show();
@@ -120,11 +132,23 @@ public class ModuleNeu implements Module {
                         u.setEmail(((EditText) dialog.findViewById(R.id.email)).getText().toString());
                         u.setBalance(0.);
                         u.setTelephone(((EditText) dialog.findViewById(R.id.phone)).getText().toString());
-                        Model.get().getUser().add(u);
+                        Model.get().add(u);
                         addUserCard(u);
                     }
                 });
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        viewManager.closeView();
+                    }
+                });
                 dialog.show();
+            }
+        });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                viewManager.closeView();
             }
         });
         builder.show();
@@ -149,15 +173,23 @@ public class ModuleNeu implements Module {
                             Card c_ = new Card();
                             c_.setId(card);
                             c_.setType(3);
-                            Model.get().getCards().add(c_);
+                            Model.get().add(c_);
                             Identity i = new Identity();
                             i.setCard(card);
                             i.setUser(u.getId());
+                            Model.get().add(i);
                             Toast.makeText(ViewManager.get().getActivity(), "Benutzer " + u.getName() + " mit Karte " + card + " verbunden", Toast.LENGTH_SHORT).show();
+                            Model.get().getUserManager().reload();
                         }
                         ViewManager.get().closeView();
                     }
                 });
+            }
+        });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                ViewManager.get().closeView();
             }
         });
         builder.show();

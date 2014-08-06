@@ -34,7 +34,7 @@ public class ModuleGuthaben implements Module {
             public void onCardDetected(String card) {
                 User u = Model.get().getUser(card);
                 if (u != null)
-                    Toast.makeText(viewManager.getActivity(), u.getName() + " hat " + u.getBalance() + "€ Guthaben", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(viewManager.getActivity(), u.getName() + " hat " + String.format("%.2f", u.getBalance()) + " € Guthaben", Toast.LENGTH_SHORT).show();
             }
         });
     }

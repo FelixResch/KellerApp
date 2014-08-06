@@ -1,6 +1,8 @@
 package at.resch.kellerapp.model;
 
 import at.resch.kellerapp.persistence.Field;
+import at.resch.kellerapp.persistence.ForeignKey;
+import at.resch.kellerapp.persistence.PrimaryKey;
 
 /**
  * Created by felix on 8/4/14.
@@ -8,9 +10,12 @@ import at.resch.kellerapp.persistence.Field;
 public class Card {
 
     @Field("c_id")
+    @PrimaryKey
+    @Id
     private String id;
 
     @Field("c_ct_type")
+    @ForeignKey(table = "ct_cardtype", field = "ct_id")
     private int type;
 
     public String getId() {
