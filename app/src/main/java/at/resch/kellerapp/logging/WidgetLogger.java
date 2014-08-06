@@ -1,4 +1,4 @@
-package at.resch.kellerapp.at.resch.kellerapp.logging;
+package at.resch.kellerapp.logging;
 
 import android.text.Html;
 import android.widget.TextView;

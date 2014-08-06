@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Properties;
 
-import at.resch.kellerapp.at.resch.kellerapp.logging.Log;
-import at.resch.kellerapp.at.resch.kellerapp.logging.LogcatLogger;
-import at.resch.kellerapp.at.resch.kellerapp.logging.WidgetLogger;
+import at.resch.kellerapp.logging.Log;
+import at.resch.kellerapp.logging.LogcatLogger;
+import at.resch.kellerapp.logging.WidgetLogger;
 import at.resch.kellerapp.model.SQLServer;
 import at.resch.kellerapp.user.CardHandler;
 import at.resch.kellerapp.view.ViewManager;

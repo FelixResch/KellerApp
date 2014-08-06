@@ -18,7 +18,7 @@ public class Identity {
     @Field("i_u_user")
     @PrimaryKey
     @ForeignKey(table = "u_user", field = "u_id")
-    @Id
+    @Id(type = Integer.class)
     private int user;
 
     public int getUser() {

@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import java.util.Properties;
 
-import at.resch.kellerapp.at.resch.kellerapp.logging.Log;
+import at.resch.kellerapp.logging.Log;
 import at.resch.kellerapp.persistence.PersistenceManager;
 import at.resch.kellerapp.user.CardHandler;
 import at.resch.kellerapp.user.UserManager;

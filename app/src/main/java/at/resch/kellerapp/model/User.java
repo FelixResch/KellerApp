@@ -14,7 +14,7 @@ public class User {
     @Field("u_id")
     @PrimaryKey
     @AutoIncrement
-    @Id
+    @Id(type = Integer.class)
     private int id;
 
     @Field("u_name")

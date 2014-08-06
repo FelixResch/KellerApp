@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import java.util.Stack;
 
-import at.resch.kellerapp.at.resch.kellerapp.logging.Log;
+import at.resch.kellerapp.logging.Log;
 import at.resch.kellerapp.model.Model;
 import at.resch.kellerapp.user.RequiresPermission;
 
@@ -37,13 +37,13 @@ public class ViewManager {
     public void openView(Class<?> view) {
         try {
             View v = (View) view.newInstance();
-            if(view.isAnnotationPresent(RequiresPermission.class)) {
-                if(!Model.get().getUserManager().authorize(view.getAnnotation(RequiresPermission.class).value())) {
+            if (view.isAnnotationPresent(RequiresPermission.class)) {
+                if (!Model.get().getUserManager().authorize(view.getAnnotation(RequiresPermission.class).value())) {
                     Toast.makeText(activity, "Permission " + view.getAnnotation(RequiresPermission.class).value() + " required for this Operation!", Toast.LENGTH_LONG).show();
                     return;
                 }
             }
-            if(viewStack.size() >= 1)
+            if (viewStack.size() >= 1)
                 viewStack.peek().close(this);
             viewStack.push(v);
             v.open(this);
@@ -55,7 +55,7 @@ public class ViewManager {
     }
 
     public void closeView() {
-        if(viewStack.size() == 1) {
+        if (viewStack.size() == 1) {
             activity.finish();
         } else {
             viewStack.pop().close(this);

@@ -12,7 +12,7 @@ public class Category {
     @Field("ca_id")
     @PrimaryKey
     @AutoIncrement
-    @Id
+    @Id(type = Integer.class)
     private int id;
 
     @Field("ca_name")

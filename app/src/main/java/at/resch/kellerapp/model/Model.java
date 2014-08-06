@@ -193,11 +193,13 @@ public class Model {
                             ids.setAccessible(true);
                             if (ids.isAnnotationPresent(Id.class)) {
                                 Id i = ids.getAnnotation(Id.class);
-                                if (i.type() == Void.class && ids.getType().isAssignableFrom(id.getClass())) {
-                                    if (ids.get(o).equals(id)) {
+                                if (i.type() == Void.class && ids.getType().isAssignableFrom(id.getClass()) || ids.getType() == id.getClass()) {
+                                    Object val = ids.get(o);
+                                    boolean eval = val.equals(id);
+                                    if (val.equals(id)) {
                                         return (T) o;
                                     }
-                                } else if (i.type() != Void.class && i.type().isAssignableFrom(id.getClass())) {
+                                } else if (i.type() != Void.class && i.type().isAssignableFrom(id.getClass()) || i.type() == id.getClass()) {
                                     if (ids.get(o).equals(id)) {
                                         return (T) o;
                                     }
@@ -207,6 +209,8 @@ public class Model {
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    Log.e("kellerapp-log", e.getMessage(), e);
                 }
             }
         }

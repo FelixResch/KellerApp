@@ -1,4 +1,4 @@
-package at.resch.kellerapp.at.resch.kellerapp.logging;
+package at.resch.kellerapp.logging;
 
 /**
  * Created by felix on 8/4/14.

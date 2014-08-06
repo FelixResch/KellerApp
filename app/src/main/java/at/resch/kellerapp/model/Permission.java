@@ -12,7 +12,7 @@ public class Permission {
     @Field("p_u_user")
     @PrimaryKey
     @ForeignKey(table = "u_user", field = "u_id")
-    @Id
+    @Id(type = Integer.class)
     private int user;
 
     @Field("p_permission")

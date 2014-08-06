@@ -10,7 +10,7 @@ public class CardType {
 
     @Field("ct_id")
     @PrimaryKey
-    @Id
+    @Id(type = Integer.class)
     private int id;
 
     @Field("ct_name")
