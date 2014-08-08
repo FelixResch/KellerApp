@@ -31,7 +31,7 @@ public class SQLServer extends AsyncTask<Properties, String, Model> {
         }
         Model m = PersistenceManager.load(properties[0].getProperty("server.ip"), properties[0].getProperty("server.port"),
                 properties[0].getProperty("connection.user"), properties[0].getProperty("connection.pass"), this);
-        log("Adding Dummy User @0");
+        /*log("Adding Dummy User @0");
         {
             User u = new User();
             u.setId(0);
@@ -95,7 +95,7 @@ public class SQLServer extends AsyncTask<Properties, String, Model> {
             c4.setId(4);
             c4.setName("Stamperl");
             m.add(c4);
-        }
+        }*/
         log("Creating User Manager");
         UserManager um = new UserManager(m);
         log("Logging in with Dummy user 0x00000000");

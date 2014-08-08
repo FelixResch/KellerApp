@@ -1,6 +1,8 @@
 package at.resch.kellerapp.view.modules;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -11,9 +13,14 @@ import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.ResultSet;
 import java.util.Properties;
 
 import at.resch.kellerapp.R;
+import at.resch.kellerapp.model.Model;
+import at.resch.kellerapp.persistence.Query;
+import at.resch.kellerapp.persistence.QueryExecutedListener;
+import at.resch.kellerapp.persistence.QueryExecutor;
 import at.resch.kellerapp.user.RequiresPermission;
 import at.resch.kellerapp.view.Module;
 import at.resch.kellerapp.view.ViewManager;
@@ -64,6 +71,84 @@ public class ModuleServer implements Module {
                 } catch (IOException e) {
                 }
                 viewManager.closeView();
+            }
+        });
+        ((Button) viewManager.getActivity().findViewById(R.id.test)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+
+                properties.setProperty("server.ip", ((EditText) viewManager.getActivity().findViewById(R.id.host)).getText().toString());
+                properties.setProperty("server.port", ((EditText) viewManager.getActivity().findViewById(R.id.port)).getText().toString());
+                properties.setProperty("connection.user", ((EditText) viewManager.getActivity().findViewById(R.id.user)).getText().toString());
+                properties.setProperty("connection.pass", ((EditText) viewManager.getActivity().findViewById(R.id.password)).getText().toString());
+                QueryExecutor.openConnection(properties.getProperty("server.ip"), properties.getProperty("server.port"), "", properties.getProperty("connection.user"), properties.getProperty("connection.pass"));
+                QueryExecutor executor = new QueryExecutor();
+                executor.execute(new Query("select 1", new QueryExecutedListener() {
+                    @Override
+                    public void executionFinished(ResultSet result) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(viewManager.getActivity());
+                        builder.setTitle("Verbindung hergestellt");
+                        builder.setMessage("Sie können das Gerät jetzt mit dem Server verbinden und auf die Datenbank zugreifen.");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        builder.show();
+                    }
+                }));
+
+            }
+        });
+        ((Button) viewManager.getActivity().findViewById(R.id.script)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(viewManager.getActivity());
+                builder.setTitle("Sind Sie sich sicher?");
+                builder.setMessage("Das ausführen dieses Skripts löscht alle Daten auf dem Server und setzt damit das ganze System zurück!\nWollen Sie wirklich fortfahren?");
+                builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        properties.setProperty("server.ip", ((EditText) viewManager.getActivity().findViewById(R.id.host)).getText().toString());
+                        properties.setProperty("server.port", ((EditText) viewManager.getActivity().findViewById(R.id.port)).getText().toString());
+                        properties.setProperty("connection.user", ((EditText) viewManager.getActivity().findViewById(R.id.user)).getText().toString());
+                        properties.setProperty("connection.pass", ((EditText) viewManager.getActivity().findViewById(R.id.password)).getText().toString());
+                        QueryExecutor.openConnection(properties.getProperty("server.ip"), properties.getProperty("server.port"), "", properties.getProperty("connection.user"), properties.getProperty("connection.pass"));
+                        QueryExecutor executor = new QueryExecutor();
+                        String query = ((TextView) viewManager.getActivity().findViewById(R.id.sql)).getText().toString().replace("\n\n", "\n");
+                        String[] q = query.split("\n");
+                        Query[] queries = new Query[q.length];
+                        for (int j = 0; j < q.length; j++) {
+                            queries[j] = new Query(q[j], null);
+                        }
+                        queries[q.length - 1].setListener(new QueryExecutedListener() {
+                            @Override
+                            public void executionFinished(ResultSet result) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(viewManager.getActivity());
+                                builder.setTitle("Skript ausgeführt");
+                                builder.setMessage("Die Datenbank wurde erfolgreich eingerichtet. Sie können jetzt Daten hinzufügen und entfernen.\nVersuche Daten zu mirgrieren!");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                builder.show();
+                                Model.get().migrate();
+                            }
+                        });
+                        executor.execute(queries);
+                    }
+                });
+                builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
             }
         });
         LoadSQLFile load = new LoadSQLFile();

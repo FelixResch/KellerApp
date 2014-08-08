@@ -1,15 +1,21 @@
 package at.resch.kellerapp.model;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import at.resch.kellerapp.persistence.Database;
 import at.resch.kellerapp.persistence.PersistenceManager;
+import at.resch.kellerapp.persistence.Query;
+import at.resch.kellerapp.persistence.QueryExecutedListener;
+import at.resch.kellerapp.persistence.QueryExecutor;
 import at.resch.kellerapp.persistence.Table;
 import at.resch.kellerapp.user.UserManager;
+import at.resch.kellerapp.view.ViewManager;
 
 /**
  * Created by felix on 8/4/14.
@@ -181,6 +187,36 @@ public class Model {
             }
         }
         Log.d("kellerapp-log", "No List for Type: " + o.getClass().getCanonicalName());
+    }
+
+    public void migrate() {
+        QueryExecutor executor = new QueryExecutor();
+        executor.execute(new Query("SET foreign_key_checks = 0;", new QueryExecutedListener() {
+            @Override
+            public void executionFinished(ResultSet result) {
+                for (Field f : Model.class.getDeclaredFields()) {
+                    f.setAccessible(true);
+                    if (f.isAnnotationPresent(Table.class)) {
+                        try {
+                            ArrayList list = (ArrayList) f.get(Model.this);
+                            for (Object o : list) {
+                                PersistenceManager.insert(f.getAnnotation(Table.class).value(), o);
+                            }
+                        } catch (IllegalAccessException e) {
+                            Log.e("kellerapp-log", "Persitence Error", e);
+                        }
+                    }
+                }
+                QueryExecutor executor = new QueryExecutor();
+                executor.execute(new Query("SET foreign_key_checks = 1;", new QueryExecutedListener() {
+                    @Override
+                    public void executionFinished(ResultSet result) {
+                        Toast.makeText(ViewManager.get().getActivity(), "Migration abgeschlossen", Toast.LENGTH_SHORT).show();
+                    }
+                }));
+            }
+        }));
+
     }
 
     public <T> T get(Class<T> type, Object id) {

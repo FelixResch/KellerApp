@@ -1,5 +1,6 @@
 package at.resch.kellerapp.model;
 
+import at.resch.kellerapp.persistence.AutoIncrement;
 import at.resch.kellerapp.persistence.Field;
 import at.resch.kellerapp.persistence.PrimaryKey;
 
@@ -10,6 +11,7 @@ public class CardType {
 
     @Field("ct_id")
     @PrimaryKey
+    @AutoIncrement
     @Id(type = Integer.class)
     private int id;
 

@@ -7,7 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,11 +26,18 @@ import at.resch.kellerapp.view.ViewManager;
  */
 public class PersistenceManager {
 
+    private static QueryExecutor executor;
+
     public static Model load(String mysqlHost, String mysqlPort, String mysqlUser, String mysqlPass, SQLServer server) {
         String mysqlDatabase = Model.class.getAnnotation(Database.class).value();
         server.log("Connecting to " + mysqlHost + ":" + mysqlPort + " for Database " + mysqlDatabase + " as User " + mysqlUser);
-        //TODO JDBC thingy
         Connection db = null;
+        try {
+            db = DriverManager.getConnection("jdbc:mysql://" + mysqlHost + ":" + mysqlPort + "/" + mysqlDatabase, mysqlUser, mysqlPass);
+        } catch (SQLException e) {
+            server.log("Couldn't connect to MySQL Server. Please check properties and restart app!");
+        }
+        QueryExecutor.openConnection(mysqlHost, mysqlPort, mysqlDatabase, mysqlUser, mysqlPass);
         Model m = new Model();
         for (java.lang.reflect.Field f : Model.class.getDeclaredFields()) {
             f.setAccessible(true);
@@ -39,36 +48,48 @@ public class PersistenceManager {
                 String table = f.getAnnotation(Table.class).value();
                 Statement statement = db.createStatement();
                 ResultSet rs = statement.executeQuery("select * from " + table);
-                rs.first();
-                do {
-                    Object i = f.getType().getComponentType().newInstance();
-                    for (Field f_ : i.getClass().getDeclaredFields()) {
-                        f_.setAccessible(true);
-                        if (f_.isAnnotationPresent(at.resch.kellerapp.persistence.Field.class)) {
-                            String field = f_.getAnnotation(at.resch.kellerapp.persistence.Field.class).value();
-                            if (f_.getType() == String.class) {
-                                f_.set(i, rs.getString(field));
-                            } else if (f_.getType() == double.class) {
-                                f_.setDouble(i, rs.getDouble(field));
-                            } else if (f_.getType() == int.class) {
-                                f_.setInt(i, rs.getInt(field));
+                if (rs.first()) {
+                    do {
+                        Type generic = f.getGenericType();
+                        ParameterizedType parameterizedType = (ParameterizedType) generic;
+                        Type[] actualTypes = parameterizedType.getActualTypeArguments();
+                        Type type = actualTypes[0];
+                        Class<?> clazz = (Class<?>) type;
+                        Object i = clazz.newInstance();
+                        //Object i = ((Class)((ParameterizedType)f.getGenericType()).getActualTypeArguments()[0]).newInstance();
+                        for (Field f_ : i.getClass().getDeclaredFields()) {
+                            f_.setAccessible(true);
+                            if (f_.isAnnotationPresent(at.resch.kellerapp.persistence.Field.class)) {
+                                String field = f_.getAnnotation(at.resch.kellerapp.persistence.Field.class).value();
+                                if (f_.getType() == String.class) {
+                                    f_.set(i, rs.getString(field));
+                                } else if (f_.getType() == double.class) {
+                                    f_.setDouble(i, rs.getDouble(field));
+                                } else if (f_.getType() == int.class) {
+                                    f_.setInt(i, rs.getInt(field));
+                                }
                             }
                         }
-                    }
-                    instance.add(i);
-                } while (rs.next());
+                        instance.add(i);
+                    } while (rs.next());
+                }
                 f.set(m, instance);
             } catch (InstantiationException e) {
                 server.log(e.getMessage());
+                Log.e("kellerapp-persistence", "Persistence Error", e);
             } catch (IllegalAccessException e) {
                 server.log(e.getMessage());
+                Log.e("kellerapp-persistence", "Persistence Error", e);
             } catch (SQLException e) {
                 server.log(e.getMessage());
+                Log.e("kellerapp-persistence", "Persistence Error", e);
             } catch (Exception e) {
                 server.log(e.getMessage());
+                Log.e("kellerapp-persistence", "Persistence Error", e);
             }
             try {
-                f.set(m, f.getType().newInstance());
+                if (f.get(m) == null)
+                    f.set(m, f.getType().newInstance());
             } catch (IllegalAccessException e) {
                 server.log("Fatal persistence Error!");
             } catch (InstantiationException e) {
@@ -84,6 +105,7 @@ public class PersistenceManager {
             PrintStream ps = new PrintStream(ViewManager.get().getActivity().openFileOutput("create_db.sql", Context.MODE_PRIVATE));
             if (clazz.isAnnotationPresent(Database.class)) {
                 String db = clazz.getAnnotation(Database.class).value();
+                ps.println("DROP DATABASE IF EXISTS " + db + ";");
                 ps.println("CREATE DATABASE " + db + ";");
                 ps.println("USE " + db + ";");
                 ps.println();
@@ -314,6 +336,7 @@ public class PersistenceManager {
     }
 
     private static void executeQuery(String query) {
-        Log.d("query-queue", query);
+        executor = new QueryExecutor();
+        executor.execute(new Query(query, null));
     }
 }

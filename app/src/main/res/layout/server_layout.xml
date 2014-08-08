@@ -107,7 +107,25 @@
         android:text="Speichern"
         android:id="@+id/speichern"
         android:layout_toEndOf="@+id/abbrechen"
+        android:layout_below="@+id/script"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verbindung Testen"
+        android:id="@+id/test"
         android:layout_below="@+id/password"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skript ausführen"
+        android:id="@+id/script"
+        android:layout_below="@+id/test"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 

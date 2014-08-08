@@ -38,7 +38,15 @@ public class Startup extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            android.util.Log.wtf("kellerapp-log", "Couldn't load JDBC Driver", e);
+            finish();
+            return;
+        }
 
         setContentView(R.layout.activity_startup);
         logging = new Log();
@@ -54,7 +62,6 @@ public class Startup extends Activity {
         Properties properties = new Properties();
         try {
             properties.load(this.openFileInput("server.properties"));
-            throw new IOException("bla bla");
         } catch (IOException e) {
             logging.e(e.getMessage());
             properties.put("server.name", "Overlord");

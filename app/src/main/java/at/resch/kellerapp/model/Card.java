@@ -15,7 +15,7 @@ public class Card {
     private String id;
 
     @Field("c_ct_type")
-    @ForeignKey(table = "ct_cardtype", field = "ct_id")
+    @ForeignKey(table = "ct_cardtypes", field = "ct_id")
     private int type;
 
     public String getId() {
