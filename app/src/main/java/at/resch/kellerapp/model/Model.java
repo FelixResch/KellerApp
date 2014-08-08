@@ -51,6 +51,23 @@ public class Model {
     @Table("ca_categories")
     private ArrayList<Category> categories;
 
+    @Table("d_drinks")
+    private ArrayList<Drink> drinks;
+
+    @Table("ig_ingredients")
+    private ArrayList<Ingredient> ingredients;
+
+    @Table("m_mixes")
+    private ArrayList<Mix> mixes;
+
+    @Table("mr_money_resources")
+    private ArrayList<MoneyResource> moneyResources;
+
+    @Table("pu_purchase_units")
+    private ArrayList<PurchaseUnit> purchaseUnits;
+
+    @Table("t_transactions")
+    private ArrayList<Transaction> transactions;
 
     private UserManager userManager;
     private Settings settings;
@@ -129,6 +146,54 @@ public class Model {
 
     public void setCardTypes(ArrayList<CardType> cardTypes) {
         this.cardTypes = cardTypes;
+    }
+
+    public ArrayList<Drink> getDrinks() {
+        return drinks;
+    }
+
+    public void setDrinks(ArrayList<Drink> drinks) {
+        this.drinks = drinks;
+    }
+
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public ArrayList<Mix> getMixes() {
+        return mixes;
+    }
+
+    public void setMixes(ArrayList<Mix> mixes) {
+        this.mixes = mixes;
+    }
+
+    public ArrayList<MoneyResource> getMoneyResources() {
+        return moneyResources;
+    }
+
+    public void setMoneyResources(ArrayList<MoneyResource> moneyResources) {
+        this.moneyResources = moneyResources;
+    }
+
+    public ArrayList<PurchaseUnit> getPurchaseUnits() {
+        return purchaseUnits;
+    }
+
+    public void setPurchaseUnits(ArrayList<PurchaseUnit> purchaseUnits) {
+        this.purchaseUnits = purchaseUnits;
+    }
+
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     public void add(Object o) {

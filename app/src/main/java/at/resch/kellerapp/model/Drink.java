@@ -41,4 +41,76 @@ public class Drink {
     @ForeignKey(table = "ca_categories", field = "ca_id")
     @Field("d_ca_category")
     private int category;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getPriceNormal() {
+        return priceNormal;
+    }
+
+    public void setPriceNormal(double priceNormal) {
+        this.priceNormal = priceNormal;
+    }
+
+    public double getPriceParty() {
+        return priceParty;
+    }
+
+    public void setPriceParty(double priceParty) {
+        this.priceParty = priceParty;
+    }
+
+    public double getPriceSpecial() {
+        return priceSpecial;
+    }
+
+    public void setPriceSpecial(double priceSpecial) {
+        this.priceSpecial = priceSpecial;
+    }
+
+    public double getPriceEmpl() {
+        return priceEmpl;
+    }
+
+    public void setPriceEmpl(double priceEmpl) {
+        this.priceEmpl = priceEmpl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRequiredAge() {
+        return requiredAge;
+    }
+
+    public void setRequiredAge(int requiredAge) {
+        this.requiredAge = requiredAge;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
 }
