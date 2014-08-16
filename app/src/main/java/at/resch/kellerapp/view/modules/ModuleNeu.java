@@ -172,7 +172,7 @@ public class ModuleNeu implements Module {
                         } else {
                             Card c_ = new Card();
                             c_.setId(card);
-                            c_.setType(3);
+                            c_.setType(2);
                             Model.get().add(c_);
                             Identity i = new Identity();
                             i.setCard(card);

@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import at.resch.kellerapp.R;
 import at.resch.kellerapp.model.Card;
+import at.resch.kellerapp.model.Identity;
 import at.resch.kellerapp.model.Model;
 import at.resch.kellerapp.user.CardHandler;
 import at.resch.kellerapp.user.CardListener;
@@ -42,6 +43,7 @@ public class ModuleEntfernen implements Module {
                         Toast.makeText(viewManager.getActivity(), "Deleting Card " + card, Toast.LENGTH_SHORT).show();
                         //TODO remove card with jdbc model
                         Model.get().remove(Model.get().get(Card.class, card));
+                        Model.get().remove(Model.get().get(Identity.class, card));
                         Model.get().getUserManager().reload();
                         CardHandler.get().removeCardListener();
                         viewManager.closeView();

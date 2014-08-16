@@ -3,6 +3,7 @@ package at.resch.kellerapp.view.modules;
 import android.widget.Toast;
 
 import at.resch.kellerapp.R;
+import at.resch.kellerapp.model.Identity;
 import at.resch.kellerapp.model.Model;
 import at.resch.kellerapp.model.User;
 import at.resch.kellerapp.user.CardHandler;
@@ -32,7 +33,10 @@ public class ModuleGuthaben implements Module {
         CardHandler.get().addCardListener(new CardListener() {
             @Override
             public void onCardDetected(String card) {
-                User u = Model.get().getUser(card);
+                Identity i = Model.get().get(Identity.class, card);
+                if (i == null)
+                    return;
+                User u = Model.get().getUser(i.getUser());
                 if (u != null)
                     Toast.makeText(viewManager.getActivity(), u.getName() + " hat " + String.format("%.2f", u.getBalance()) + " € Guthaben", Toast.LENGTH_SHORT).show();
             }
