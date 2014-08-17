@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 
@@ -23,6 +25,10 @@ import at.resch.kellerapp.model.Card;
 import at.resch.kellerapp.model.Identity;
 import at.resch.kellerapp.model.Model;
 import at.resch.kellerapp.model.User;
+import at.resch.kellerapp.persistence.Query;
+import at.resch.kellerapp.persistence.QueryExecutedListener;
+import at.resch.kellerapp.persistence.QueryExecutor;
+import at.resch.kellerapp.persistence.QueryResult;
 import at.resch.kellerapp.user.CardHandler;
 import at.resch.kellerapp.user.CardListener;
 import at.resch.kellerapp.view.Module;
@@ -126,14 +132,22 @@ public class ModuleNeu implements Module {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
-                        User u = new User();
+                        final User u = new User();
                         u.setBirthday(new Date(birthday.getYear() - 1900, birthday.getMonth(), birthday.getDayOfMonth()));
                         u.setName(((EditText) dialog.findViewById(R.id.name)).getText().toString());
                         u.setEmail(((EditText) dialog.findViewById(R.id.email)).getText().toString());
                         u.setBalance(0.);
                         u.setTelephone(((EditText) dialog.findViewById(R.id.phone)).getText().toString());
                         Model.get().add(u);
-                        addUserCard(u);
+                        QueryExecutor executor = new QueryExecutor();
+                        executor.execute(new Query("SELECT max(u_id) FROM u_user;", new QueryExecutedListener() {
+                            @Override
+                            public void executionFinished(QueryResult result) {
+                                result.first();
+                                u.setId(result.get(Integer.class, 1));
+                                addUserCard(u);
+                            }
+                        }));
                     }
                 });
                 dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

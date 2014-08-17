@@ -21,6 +21,7 @@ import at.resch.kellerapp.model.Model;
 import at.resch.kellerapp.persistence.Query;
 import at.resch.kellerapp.persistence.QueryExecutedListener;
 import at.resch.kellerapp.persistence.QueryExecutor;
+import at.resch.kellerapp.persistence.QueryResult;
 import at.resch.kellerapp.user.RequiresPermission;
 import at.resch.kellerapp.view.Module;
 import at.resch.kellerapp.view.ViewManager;
@@ -85,7 +86,7 @@ public class ModuleServer implements Module {
                 QueryExecutor executor = new QueryExecutor();
                 executor.execute(new Query("select 1", new QueryExecutedListener() {
                     @Override
-                    public void executionFinished(ResultSet result) {
+                    public void executionFinished(QueryResult result) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(viewManager.getActivity());
                         builder.setTitle("Verbindung hergestellt");
                         builder.setMessage("Sie können das Gerät jetzt mit dem Server verbinden und auf die Datenbank zugreifen.");
@@ -125,7 +126,7 @@ public class ModuleServer implements Module {
                         }
                         queries[q.length - 1].setListener(new QueryExecutedListener() {
                             @Override
-                            public void executionFinished(ResultSet result) {
+                            public void executionFinished(QueryResult result) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(viewManager.getActivity());
                                 builder.setTitle("Skript ausgeführt");
                                 builder.setMessage("Die Datenbank wurde erfolgreich eingerichtet. Sie können jetzt Daten hinzufügen und entfernen.\nVersuche Daten zu mirgrieren!");

@@ -9,7 +9,7 @@ public class Query {
 
     private String query;
     private QueryExecutedListener listener;
-    private ResultSet resultSet;
+    private QueryResult result;
 
     public Query(String query, QueryExecutedListener listener) {
         this.query = query;
@@ -32,11 +32,11 @@ public class Query {
         this.listener = listener;
     }
 
-    public ResultSet getResultSet() {
-        return resultSet;
+    public QueryResult getResult() {
+        return result;
     }
 
-    public void setResultSet(ResultSet resultSet) {
-        this.resultSet = resultSet;
+    public void setResult(QueryResult result) {
+        this.result = result;
     }
 }

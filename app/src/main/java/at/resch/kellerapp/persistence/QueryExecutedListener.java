@@ -7,7 +7,7 @@ import java.sql.ResultSet;
  */
 public interface QueryExecutedListener {
 
-    public abstract void executionFinished(ResultSet result);
+    public abstract void executionFinished(QueryResult result);
 
     //public abstract void executionFailed(SQLException e, String query);
 }

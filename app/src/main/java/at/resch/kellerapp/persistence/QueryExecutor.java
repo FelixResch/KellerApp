@@ -62,7 +62,7 @@ public class QueryExecutor extends AsyncTask<Query, String, Query[]> {
                 Statement statement = connection.createStatement();
                 String query_text = queries[i].getQuery().toLowerCase();
                 if (query_text.startsWith("select")) {
-                    queries[i].setResultSet(statement.executeQuery(queries[i].getQuery()));
+                    queries[i].setResult(new QueryResult(statement.executeQuery(queries[i].getQuery())));
                 } else {
                     statement.execute(queries[i].getQuery());
                 }
@@ -83,7 +83,7 @@ public class QueryExecutor extends AsyncTask<Query, String, Query[]> {
     protected void onPostExecute(Query[] queries) {
         for (Query q : queries) {
             if (q.getListener() != null)
-                q.getListener().executionFinished(q.getResultSet());
+                q.getListener().executionFinished(q.getResult());
         }
     }
 

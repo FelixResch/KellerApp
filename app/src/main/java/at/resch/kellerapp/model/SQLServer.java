@@ -31,53 +31,54 @@ public class SQLServer extends AsyncTask<Properties, String, Model> {
         }
         Model m = PersistenceManager.load(properties[0].getProperty("server.ip"), properties[0].getProperty("server.port"),
                 properties[0].getProperty("connection.user"), properties[0].getProperty("connection.pass"), this);
-        /*log("Adding Dummy User @0");
-        {
+        if(m.get(User.class, 1) == null) {
+            log("Adding Dummy User @0");
             User u = new User();
-            u.setId(0);
+            u.setId(1);
             u.setName("Dummy User");
             m.addOverwrite(u);
             Card c = new Card();
             c.setId("00000000");
-            c.setType(0);
+            c.setType(1);
             m.add(c);
             Identity i = new Identity();
-            i.setUser(0);
+            i.setUser(1);
             i.setCard("00000000");
             m.add(i);
             Permission p = new Permission();
-            p.setUser(0);
+            p.setUser(1);
             //TODO Change back to PERMISSION_VIEW before release
             //p.setPermission("DEVELOPER");
             p.setPermission("PERMISSION_VIEW");
             m.add(p);
             p = new Permission();
-            p.setUser(0);
+            p.setUser(1);
             p.setPermission("PERMISSION_APP");
             m.add(p);
         }
         //TODO Remove before release
-        log("Adding Superuser");
+        if(m.get(User.class, 2) == null)
         {
+            log("Adding Superuser");
             User u = new User();
             u.setBalance(20);
-            u.setId(1);
+            u.setId(2);
             u.setName("Felix Resch");
             m.addOverwrite(u);
             Card c = new Card();
             c.setId("09F58630");
-            c.setType(1);
+            c.setType(2);
             m.add(c);
             Identity i = new Identity();
-            i.setUser(1);
+            i.setUser(2);
             i.setCard("09F58630");
             m.add(i);
             Permission p = new Permission();
-            p.setUser(1);
+            p.setUser(2);
             p.setPermission("DEVELOPER");
             m.add(p);
         }
-        log("Adding Test Categories");
+        /*log("Adding Test Categories");
         {
             Category c1 = new Category();
             c1.setId(1);

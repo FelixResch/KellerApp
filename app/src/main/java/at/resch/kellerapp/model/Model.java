@@ -13,6 +13,7 @@ import at.resch.kellerapp.persistence.PersistenceManager;
 import at.resch.kellerapp.persistence.Query;
 import at.resch.kellerapp.persistence.QueryExecutedListener;
 import at.resch.kellerapp.persistence.QueryExecutor;
+import at.resch.kellerapp.persistence.QueryResult;
 import at.resch.kellerapp.persistence.Table;
 import at.resch.kellerapp.user.UserManager;
 import at.resch.kellerapp.view.ViewManager;
@@ -258,7 +259,7 @@ public class Model {
         QueryExecutor executor = new QueryExecutor();
         executor.execute(new Query("SET foreign_key_checks = 0;", new QueryExecutedListener() {
             @Override
-            public void executionFinished(ResultSet result) {
+            public void executionFinished(QueryResult result) {
                 for (Field f : Model.class.getDeclaredFields()) {
                     f.setAccessible(true);
                     if (f.isAnnotationPresent(Table.class)) {
@@ -275,7 +276,7 @@ public class Model {
                 QueryExecutor executor = new QueryExecutor();
                 executor.execute(new Query("SET foreign_key_checks = 1;", new QueryExecutedListener() {
                     @Override
-                    public void executionFinished(ResultSet result) {
+                    public void executionFinished(QueryResult result) {
                         Toast.makeText(ViewManager.get().getActivity(), "Migration abgeschlossen", Toast.LENGTH_SHORT).show();
                     }
                 }));
