@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import at.resch.kellerapp.persistence.Database;
@@ -213,6 +212,16 @@ public class Model {
         Log.d("kellerapp-log", "No List for Type: " + o.getClass().getCanonicalName());
     }
 
+    public String getTableName(Class<?> o) {
+        for (Field f : getClass().getDeclaredFields()) {
+            if (f.isAnnotationPresent(Table.class) && ((Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0]) == o) {
+                return f.getAnnotation(Table.class).value();
+            }
+        }
+        Log.d("kellerapp-log", "No List for Type: " + o.getCanonicalName());
+        return null;
+    }
+
     public void addOverwrite(Object o) {
         for (Field f : getClass().getDeclaredFields()) {
             if (f.isAnnotationPresent(Table.class) && ((Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0]) == o.getClass()) {
@@ -316,6 +325,27 @@ public class Model {
                 }
             }
         }
+        return null;
+    }
+
+    public void updateAll(Object... objects) {
+        for (Object o : objects) {
+            update(o);
+        }
+    }
+
+    public static <T> Selection<T> select(Class<T> type) {
+        for (Field f : Model.class.getDeclaredFields()) {
+            if (f.isAnnotationPresent(Table.class) && ((Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0]) == type) {
+                try {
+                    ArrayList list = (ArrayList) f.get(Model.get());
+                    return new Selection<T>(list, type);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Log.d("kellerapp-log", "No List for Type: " + type.getCanonicalName());
         return null;
     }
 }

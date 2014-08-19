@@ -6,10 +6,10 @@
     <ListView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:id="@+id/bestellungen"
-        android:layout_alignParentTop="true"
+        android:id="@+id/order"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/pay"/>
+        android:layout_above="@+id/pay"
+        android:layout_alignParentTop="true" />
 
     <TabHost
         android:layout_width="fill_parent"
@@ -18,9 +18,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/pay"
-        android:layout_toRightOf="@id/bestellungen">
+        android:layout_toRightOf="@id/order">
 
-        <LinearLayout
+    <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical">
@@ -114,50 +114,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0,00€"
-        android:id="@+id/textView"
+        android:id="@+id/total"
         android:layout_alignTop="@+id/back"
         android:layout_toStartOf="@+id/back"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <!--<TabHost
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/tabHost2"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/bestellungen"
-        android:layout_above="@+id/pay">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
-
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"></TabWidget>
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearLayout2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearLayout3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>-->
+        android:layout_alignParentStart="true"
+        android:gravity="right" />
 </RelativeLayout>

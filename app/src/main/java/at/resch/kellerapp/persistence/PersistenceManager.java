@@ -16,6 +16,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 
 import at.resch.kellerapp.model.Model;
 import at.resch.kellerapp.model.SQLServer;
@@ -56,7 +57,6 @@ public class PersistenceManager {
                         Type type = actualTypes[0];
                         Class<?> clazz = (Class<?>) type;
                         Object i = clazz.newInstance();
-                        //Object i = ((Class)((ParameterizedType)f.getGenericType()).getActualTypeArguments()[0]).newInstance();
                         for (Field f_ : i.getClass().getDeclaredFields()) {
                             f_.setAccessible(true);
                             if (f_.isAnnotationPresent(at.resch.kellerapp.persistence.Field.class)) {
@@ -67,6 +67,8 @@ public class PersistenceManager {
                                     f_.setDouble(i, rs.getDouble(field));
                                 } else if (f_.getType() == int.class) {
                                     f_.setInt(i, rs.getInt(field));
+                                } else if (f_.getType() == Date.class) {
+                                    f_.set(i, new Date(rs.getDate(field).getTime()));
                                 }
                             }
                         }
@@ -207,9 +209,15 @@ public class PersistenceManager {
                     } catch (IllegalAccessException e) {
                         Log.e("kellerapp-log", e.getMessage(), e);
                     }
-                } else if (f.getType() == int.class || f.getType() == double.class) {
+                } else if (f.getType() == int.class) {
                     try {
                         query += " = " + f.get(obj) + ",";
+                    } catch (IllegalAccessException e) {
+                        Log.e("kellerapp-log", e.getMessage(), e);
+                    }
+                } else if (f.getType() == double.class) {
+                    try {
+                        query += " = " + String.format(Locale.US, "%.4f", f.get(obj)) + ",";
                     } catch (IllegalAccessException e) {
                         Log.e("kellerapp-log", e.getMessage(), e);
                     }
@@ -247,9 +255,15 @@ public class PersistenceManager {
                     } catch (IllegalAccessException e) {
                         Log.e("kellerapp-log", e.getMessage(), e);
                     }
-                } else if (f.getType() == int.class || f.getType() == double.class) {
+                } else if (f.getType() == int.class) {
                     try {
                         query += " = " + f.get(obj) + ",";
+                    } catch (IllegalAccessException e) {
+                        Log.e("kellerapp-log", e.getMessage(), e);
+                    }
+                } else if (f.getType() == double.class) {
+                    try {
+                        query += " = " + String.format(Locale.US, "%.4f", f.get(obj)) + ",";
                     } catch (IllegalAccessException e) {
                         Log.e("kellerapp-log", e.getMessage(), e);
                     }

@@ -31,7 +31,7 @@ public class SQLServer extends AsyncTask<Properties, String, Model> {
         }
         Model m = PersistenceManager.load(properties[0].getProperty("server.ip"), properties[0].getProperty("server.port"),
                 properties[0].getProperty("connection.user"), properties[0].getProperty("connection.pass"), this);
-        if(m.get(User.class, 1) == null) {
+        if (m.get(User.class, 1) == null) {
             log("Adding Dummy User @0");
             User u = new User();
             u.setId(1);
@@ -48,8 +48,8 @@ public class SQLServer extends AsyncTask<Properties, String, Model> {
             Permission p = new Permission();
             p.setUser(1);
             //TODO Change back to PERMISSION_VIEW before release
-            //p.setPermission("DEVELOPER");
-            p.setPermission("PERMISSION_VIEW");
+            p.setPermission("DEVELOPER");
+            //p.setPermission("PERMISSION_VIEW");
             m.add(p);
             p = new Permission();
             p.setUser(1);
@@ -57,8 +57,7 @@ public class SQLServer extends AsyncTask<Properties, String, Model> {
             m.add(p);
         }
         //TODO Remove before release
-        if(m.get(User.class, 2) == null)
-        {
+        if (m.get(User.class, 2) == null) {
             log("Adding Superuser");
             User u = new User();
             u.setBalance(20);
